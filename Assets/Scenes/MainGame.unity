@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 71933641}
   - component: {fileID: 71933640}
   - component: {fileID: 71933644}
+  - component: {fileID: 71933645}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -286,8 +287,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: {x: 0, y: 0}
+  initialPosition: {x: 0, y: 0}
+  rigidBody: {fileID: 71933640}
+--- !u!114 &71933645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71933639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 237311a8bd1f802449e86bd3177b03ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   speed: 0
-  gravityScale: 1
+  gravityScale: 0
+  ballPhysics: {fileID: 71933644}
   trajectoryRenderer: {fileID: 1485900529}
 --- !u!1 &105752624
 GameObject:

@@ -1,24 +1,26 @@
 ﻿using Assets.Scripts.State.Contexts;
 using Assets.Scripts.State.Interfaces;
 using System;
-using UnityEngine;
 
 namespace Assets.Scripts.State.States.GameStates
 {
     class PlayState : IGameState
     {
-        void IGameState.HandleIsTermination(GameStateContext contextIn)
+        void IGameState.IsTermination(GameStateContext contextIn)
         {
             throw new NotImplementedException();
         }
 
         void IGameState.Hit(GameStateContext contextIn)
         {
-            Debug.Log("Ball was hit");
-            //throw new NotImplementedException();
+            contextIn.IncParC();
+
+            // DISABLE OUTPUT
+
+            contextIn.ChangeState(new ProcessState());
         }
 
-        void IGameState.ProcessUntilStop(GameStateContext contextIn)
+        void IGameState.Process(GameStateContext contextIn)
         {
             throw new NotImplementedException();
         }
