@@ -1,3 +1,4 @@
+using Assets.Scripts.State.Contexts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,16 +10,18 @@ public class BallLogic : MonoBehaviour
     [SerializeField] private Vector2 velocity;
 
     [SerializeField] private float speed;
-    [SerializeField] private float gravityScale = 1f;
+    [SerializeField] private float gravityScale;
 
     [SerializeField] private TrajectoryRenderer trajectoryRenderer;
     private Rigidbody2D rigidBody;
 
-
+    private GameStateContext gameStateContext;
 
     void Start()
     {
         speed = 100f;
+        gravityScale = 1f;
+
         rigidBody = GetComponent<Rigidbody2D>();
         /*trajectoryRenderer = GetComponent<TrajectoryRenderer>();*/
 
@@ -27,6 +30,8 @@ public class BallLogic : MonoBehaviour
             // Set gravity scale
             rigidBody.gravityScale = gravityScale;
         }
+        gameStateContext = new GameStateContext();
+        gameStateContext.Init();
     }
 
     private Vector3 GetDirection()
@@ -36,7 +41,6 @@ public class BallLogic : MonoBehaviour
         Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, transform.position.z));
 
         return (transform.position - worldMousePosition).normalized;
-
     }
 
     private void OnMouseDrag()
@@ -47,29 +51,10 @@ public class BallLogic : MonoBehaviour
 
     private void OnMouseUp()
     {
-        /*rigidBody.AddForce(velocity * 10f);*/
         rigidBody.velocity = velocity;
 
         trajectoryRenderer.ClearTrajectory();
-    }
 
-    /*void Dragging()
-    {
-        Vector2 dragDelta = (Vector2)Input.mousePosition - dragStartPos;
-
-        // Adjust the trajectory calculation based on your game's physics
-        float power = Mathf.Clamp(dragDelta.magnitude * powerMultiplier, minPower, maxPower);
-        Vector2 direction = dragDelta.normalized;
-
-        // Calculate trajectory using physics
-        Vector2 velocity = direction * power;
-        trajectoryRenderer.DisplayTrajectory(transform.position, velocity);
-    }*/
-
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        gameStateContext.HandleHitBall();
     }
 }
