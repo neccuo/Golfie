@@ -6,17 +6,25 @@ namespace Assets.Scripts.State.States.GameStates
 {
     class NextGameState : IGameState
     {
-        void IGameState.IsTermination(GameStateContext contextIn)
+        GameStateContext context;
+
+        public NextGameState(GameStateContext contextIn)
+        {
+            context = contextIn;
+
+        }
+
+        void IGameState.IsTermination()
         {
             throw new NotImplementedException();
         }
 
-        void IGameState.Hit(GameStateContext contextIn)
+        void IGameState.Hit()
         {
             throw new NotImplementedException();
         }
 
-        void IGameState.Process(GameStateContext contextIn)
+        void IGameState.Process()
         {
             throw new NotImplementedException();
         }

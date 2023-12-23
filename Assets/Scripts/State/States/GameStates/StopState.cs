@@ -6,22 +6,29 @@ namespace Assets.Scripts.State.States.GameStates
 {
     class StopState : IGameState
     {
-        void IGameState.IsTermination(GameStateContext contextIn)
-        {
-            Ball ball = contextIn.GetBall();
+        GameStateContext context;
 
-            if (ball.IsBallInHole())
-                contextIn.ChangeState(new NextGameState());
-            else
-                contextIn.ChangeState(new PlayState());
+        public StopState(GameStateContext contextIn)
+        {
+            context = contextIn;
         }
 
-        void IGameState.Hit(GameStateContext contextIn)
+        void IGameState.IsTermination()
+        {
+            Ball ball = context.GetBall();
+
+            if (ball.IsBallInGoalArea())
+                context.ChangeState(new NextGameState(context));
+            else
+                context.ChangeState(new PlayState(context));
+        }
+
+        void IGameState.Hit()
         {
             throw new NotImplementedException();
         }
 
-        void IGameState.Process(GameStateContext contextIn)
+        void IGameState.Process()
         {
             throw new NotImplementedException();
         }

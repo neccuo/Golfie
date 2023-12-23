@@ -42,34 +42,39 @@ public class Ball : MonoBehaviour
 
     // WIN CONDITION
     // TODO: IMPLEMENT IT LATER
-    public bool IsBallInHole()
+    public bool IsBallInGoalArea()
     {
-        return false;
+        return ballPhysics.IsBallCollidingWithGoalArea();
     }
 
     public void ResetBallPosition()
     {
-        BallStopped();
+        ballPhysics.StopBall();
         ballPhysics.ReturnToInitialPosition();
     }
 
-    private void BallStopped()
-    {
-        ballPhysics.StopBall();
-
-    }
-
-    private void OnMouseDrag()
+    // FUNCTIONS FOR MY CUSTOM INPUT SYSTEM
+    public void InpAimBall()
     {
         Vector2 aimedVelocity = ballPhysics.AimBall(speed);
         trajectoryRenderer.DisplayTrajectory(transform.position, aimedVelocity, gravityScale);
     }
 
-    private void OnMouseUp()
+    public void InpReleaseBall()
     {
         trajectoryRenderer.ClearTrajectory();
         gameStateContext.HandleHitBall();
         ballPhysics.HitBall();
+    }
+
+    private void OnMouseDrag()
+    {
+        GameInputSystem.Instance.BallMouseDrag();
+    }
+
+    private void OnMouseUp()
+    {
+        GameInputSystem.Instance.BallMouseUp();
     }
 
     private void Update()

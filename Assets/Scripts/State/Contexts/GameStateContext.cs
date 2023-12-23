@@ -1,11 +1,16 @@
 ﻿using Assets.Scripts.State.Interfaces;
 using Assets.Scripts.State.States.GameStates;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Assets.Scripts.State.Contexts
 {
     class GameStateContext
     {
+        public UnityEvent<int> updateParEvent;
+
+        private GameUIMediator gameUIMediator;
+
         private Ball ball;
 
         private IGameState currentState;
@@ -14,33 +19,36 @@ namespace Assets.Scripts.State.Contexts
 
         public GameStateContext(Ball ballIn)
         {
+            updateParEvent = new UnityEvent<int>();
+            gameUIMediator = GameObject.FindGameObjectWithTag("GameUIMediator")
+                                       .GetComponent<GameUIMediator>();
+            updateParEvent.AddListener(gameUIMediator.UpdateParCounterTxt);
             ball = ballIn;
-            currentState = new PlayState();
-            parCount = 0;
+            Init();
         }
 
-        //public void Init()
-        //{
-        //    currentState = new PlayState();
-        //    parCount = 0;
-        //}
+        public void Init()
+        {
+            currentState = new PlayState(this);
+            UpdateParC(0);
+        }
 
         // Increase par count, disable user game input (not HUD), enter process state
         public void HandleHitBall()
         {
-            currentState.Hit(this);
+            currentState.Hit();
         }
 
         // Idle state?, run animations maybe. 
         public void HandleProcessBall()
         {
-            currentState.Process(this);
+            currentState.Process();
         }
 
         // Next level or continue where you have left of (or out of bounds, return back to initial position)
         public void HandleEndGame()
         {
-            currentState.IsTermination(this);
+            currentState.IsTermination();
         }
 
         public void ChangeState(IGameState stateIn)
@@ -48,6 +56,8 @@ namespace Assets.Scripts.State.Contexts
             Debug.Log($"{currentState.GetType().Name} to {stateIn.GetType().Name}");
             currentState = stateIn;
         }
+
+        //private void PostChangeState()
 
         public Ball GetBall()
         {
@@ -59,9 +69,17 @@ namespace Assets.Scripts.State.Contexts
             return currentState;
         }
 
+        public void UpdateParC(int parCountIn)
+        {
+            // Event system
+            parCount = parCountIn;
+            updateParEvent.Invoke(parCount);
+            //gameUIMediator.UpdateParCounterTxt(parCount);
+        }
+
         public void IncParC()
         {
-            ++parCount;
+            UpdateParC(parCount+1);
         }
     }
 }

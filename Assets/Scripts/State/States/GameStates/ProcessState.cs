@@ -6,34 +6,40 @@ namespace Assets.Scripts.State.States.GameStates
 {
     class ProcessState : IGameState
     {
-        void IGameState.IsTermination(GameStateContext contextIn)
+        GameStateContext context;
+
+        public ProcessState(GameStateContext contextIn)
+        {
+            context = contextIn;
+        }
+
+        void IGameState.IsTermination()
         {
             throw new NotImplementedException();
         }
 
-        void IGameState.Hit(GameStateContext contextIn)
+        void IGameState.Hit()
         {
             throw new NotImplementedException();
         }
 
-        void IGameState.Process(GameStateContext contextIn)
+        void IGameState.Process()
         {
             // If out of bounds, go to play state
             // If in bounds and stopped moving, go to stop state
             // If in bounds and moving, do nothing
 
-            Ball ball = contextIn.GetBall();
+            Ball ball = context.GetBall();
 
             if(!ball.IsBallInBounds())
             {
                 ball.ResetBallPosition();
-                contextIn.ChangeState(new PlayState());
+                context.ChangeState(new PlayState(context));
             }
             else if(!ball.IsBallMoving())
             {
-                // bad code
-                contextIn.ChangeState(new StopState());
-                contextIn.HandleEndGame();
+                context.ChangeState(new StopState(context));
+                context.HandleEndGame();
             }
         }
     }

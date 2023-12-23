@@ -6,21 +6,35 @@ namespace Assets.Scripts.State.States.GameStates
 {
     class PlayState : IGameState
     {
-        void IGameState.IsTermination(GameStateContext contextIn)
+        GameStateContext context;
+
+        public PlayState(GameStateContext contextIn)
+        {
+            context = contextIn;
+            // Enable Input
+
+            // TODO: BE CAREFUL ABOUT THIS
+            GameInputSystem.Instance.EnableInput();
+        }
+
+        void IGameState.IsTermination()
         {
             throw new NotImplementedException();
         }
 
-        void IGameState.Hit(GameStateContext contextIn)
+        void IGameState.Hit()
         {
-            contextIn.IncParC();
 
             // DISABLE OUTPUT
+            GameInputSystem.Instance.DisableInput();
 
-            contextIn.ChangeState(new ProcessState());
+            context.IncParC();
+
+
+            context.ChangeState(new ProcessState(context));
         }
 
-        void IGameState.Process(GameStateContext contextIn)
+        void IGameState.Process()
         {
             throw new NotImplementedException();
         }
