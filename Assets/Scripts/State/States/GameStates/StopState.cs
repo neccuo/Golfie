@@ -18,9 +18,14 @@ namespace Assets.Scripts.State.States.GameStates
             Ball ball = context.GetBall();
 
             if (ball.IsBallInGoalArea())
+            {
                 context.ChangeState(new NextGameState(context));
+                context.HandleNextGame();
+            }
             else
+            {
                 context.ChangeState(new PlayState(context));
+            }
         }
 
         void IGameState.Hit()

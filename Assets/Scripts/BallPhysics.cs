@@ -47,16 +47,13 @@ public class BallPhysics : MonoBehaviour
         rigidBody.velocity = velocity;
     }
 
-    // CHECK HERE SOMETIME
     public bool IsBallCollidingWithGoalArea()
     {
-        //Collider[] colliders = Physics.OverlapBox(ballCollider.bounds.center, ballCollider.bounds.extents);
         float radius = ((CircleCollider2D)ballCollider).radius;
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
-        
-        foreach (Collider collider in colliders)
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
+
+        foreach (Collider2D collider in colliders)
         {
-            Debug.Log("Collision detected with " + collider.gameObject.name);
             if (collider.CompareTag("GoalArea"))
             {
                 Debug.Log("Collision detected with " + collider.gameObject.name);

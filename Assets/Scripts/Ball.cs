@@ -27,6 +27,11 @@ public class Ball : MonoBehaviour
         //gameStateContext.Init();
     }
 
+    public void InitBall()
+    {
+        transform.position = new Vector2(-8, 0);
+    }
+
     public bool IsBallMoving()
     {
         return ballPhysics.IsMoving();
@@ -35,7 +40,7 @@ public class Ball : MonoBehaviour
     // TODO: IMPLEMENT IT LATER
     public bool IsBallInBounds()
     {
-        if (transform.position.y > 3)
+        if (transform.position.y < -20f)
             return false;
         return true;
     }

@@ -9,7 +9,7 @@ namespace Assets.Scripts.State.Contexts
     {
         public UnityEvent<int> updateParEvent;
 
-        private GameUIMediator gameUIMediator;
+        private GameMediator gameMediator;
 
         private Ball ball;
 
@@ -20,9 +20,9 @@ namespace Assets.Scripts.State.Contexts
         public GameStateContext(Ball ballIn)
         {
             updateParEvent = new UnityEvent<int>();
-            gameUIMediator = GameObject.FindGameObjectWithTag("GameUIMediator")
-                                       .GetComponent<GameUIMediator>();
-            updateParEvent.AddListener(gameUIMediator.UpdateParCounterTxt);
+            gameMediator = GameObject.FindGameObjectWithTag("GameMediator")
+                                       .GetComponent<GameMediator>();
+            updateParEvent.AddListener(gameMediator.UpdateParCounterTxt);
             ball = ballIn;
             Init();
         }
@@ -30,8 +30,15 @@ namespace Assets.Scripts.State.Contexts
         public void Init()
         {
             currentState = new PlayState(this);
+            ball.InitBall();
             UpdateParC(0);
         }
+
+        //public void Init()
+        //{
+        //    currentState = new PlayState(this);
+        //    UpdateParC(0);
+        //}
 
         // Increase par count, disable user game input (not HUD), enter process state
         public void HandleHitBall()
@@ -49,6 +56,12 @@ namespace Assets.Scripts.State.Contexts
         public void HandleEndGame()
         {
             currentState.IsTermination();
+        }
+
+        public void HandleNextGame()
+        {
+            Init();
+            gameMediator.OpenNextMap();
         }
 
         public void ChangeState(IGameState stateIn)
@@ -74,7 +87,6 @@ namespace Assets.Scripts.State.Contexts
             // Event system
             parCount = parCountIn;
             updateParEvent.Invoke(parCount);
-            //gameUIMediator.UpdateParCounterTxt(parCount);
         }
 
         public void IncParC()

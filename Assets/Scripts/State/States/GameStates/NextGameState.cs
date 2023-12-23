@@ -11,7 +11,6 @@ namespace Assets.Scripts.State.States.GameStates
         public NextGameState(GameStateContext contextIn)
         {
             context = contextIn;
-
         }
 
         void IGameState.IsTermination()
