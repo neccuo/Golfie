@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TrajectoryRenderer : MonoBehaviour
 {
@@ -8,6 +10,18 @@ public class TrajectoryRenderer : MonoBehaviour
 
     private GameObject[] dots;
 
+    // SIMULATION ATTEMPT
+    //[SerializeField] private Transform _obstaclesParent; // map1
+    //private Scene _simulationScene;
+    //private PhysicsScene _physicsScene;
+    //private readonly Dictionary<Transform, Transform> _spawnedObjects = new Dictionary<Transform, Transform>();
+
+    [SerializeField] private BallPhysics ballPhysics;
+    [SerializeField] private Ball ball;
+
+    [SerializeField] private Ball ghostBall;
+
+
     void Start()
     {
         dots = new GameObject[numberOfDots];
@@ -16,7 +30,60 @@ public class TrajectoryRenderer : MonoBehaviour
             dots[i] = Instantiate(dotPrefab, transform.position, Quaternion.identity);
             dots[i].SetActive(false);
         }
+        // SIMULATION ATTEMPT
+        //CreatePhysicsScene();
     }
+
+    private void Update()
+    {
+        // SIMULATION ATTEMPT
+        //foreach (var item in _spawnedObjects)
+        //{
+        //    item.Value.position = item.Key.position;
+        //    item.Value.rotation = item.Key.rotation;
+        //}
+    }
+
+    // WORRY ABOUT IT LATER
+    // SIMULATION ATTEMPT
+    //private void CreatePhysicsScene()
+    //{
+    //    _simulationScene = SceneManager.CreateScene("Simulation", new CreateSceneParameters(LocalPhysicsMode.Physics3D));
+    //    _physicsScene = _simulationScene.GetPhysicsScene();
+
+    //    foreach (Transform obj in _obstaclesParent)
+    //    {
+    //        var ghostObj = Instantiate(obj.gameObject, obj.position, obj.rotation);
+    //        if(ghostObj.GetComponent<Renderer>())
+    //            ghostObj.GetComponent<Renderer>().enabled = false;
+    //        SceneManager.MoveGameObjectToScene(ghostObj, _simulationScene);
+    //        if (!ghostObj.isStatic) _spawnedObjects.Add(obj, ghostObj.transform);
+    //    }
+    //}
+
+    // WORRY ABOUT IT LATER
+    // SIMULATION ATTEMPT
+    //public void SimulateTrajectory(Vector3 posIn, Vector3 velocityIn)
+    //{
+    //    Ball tempBall = Instantiate(ghostBall, posIn, Quaternion.identity);
+    //    SceneManager.MoveGameObjectToScene(tempBall.gameObject, _simulationScene);
+
+    //    Debug.Log(velocityIn);
+
+    //    //ghostBall.Hit(velocityIn);
+    //    tempBall.gameObject.GetComponent<Rigidbody2D>().velocity = velocityIn;
+
+    //    for (var i = 0; i < numberOfDots; i++)
+    //    {
+    //        _physicsScene.Simulate(Time.fixedDeltaTime);
+    //        Vector3 ghostPos = tempBall.transform.position;
+    //        //Debug.Log(ghostPos);
+    //        dots[i].transform.position = new Vector3(ghostPos.x, ghostPos.y, 0f);
+    //        dots[i].SetActive(true);
+    //    }
+
+    //    Destroy(tempBall.gameObject);
+    //}
 
     public void DisplayTrajectory(Vector2 startPosition, Vector2 velocity, float gravityScale)
     {
@@ -29,35 +96,7 @@ public class TrajectoryRenderer : MonoBehaviour
             dots[i].transform.position = new Vector3(position.x, position.y, 0f);
             dots[i].SetActive(true);
 
-            // Check for collision and handle ricochet
-            if (CheckCollision(position))
-            {
-                velocity = ReflectVelocity(velocity, GetSurfaceNormal(position));
-                currentPosition = position;
-            }
         }
-    }
-
-    private bool CheckCollision(Vector2 position)
-    {
-        // Perform collision detection based on your game logic
-        // For example, check if the position is inside a collider
-        // If collision occurs, return true; otherwise, return false
-        return false; // Placeholder, replace with actual collision detection
-    }
-
-    private Vector2 ReflectVelocity(Vector2 velocity, Vector2 normal)
-    {
-        // Reflect the velocity vector based on the surface normal
-        return Vector2.Reflect(velocity, normal);
-    }
-
-    private Vector2 GetSurfaceNormal(Vector2 position)
-    {
-        // Determine the surface normal at the collision point
-        // You may need to use Raycasting or other methods based on your game
-        // Return the surface normal vector
-        return Vector2.up; // Placeholder, replace with actual surface normal
     }
 
     private Vector2 CalculateTrajectoryPoint(Vector2 startPosition, Vector2 velocity, float gravityScale, float time)

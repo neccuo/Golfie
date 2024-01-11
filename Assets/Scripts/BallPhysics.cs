@@ -41,10 +41,22 @@ public class BallPhysics : MonoBehaviour
         return velocity;
     }
 
+    // SIMULATION ATTEMPT
+    //public void ApplyForce(Vector3 velocity)
+    //{
+    //    rigidBody.AddForce(velocity, ForceMode2D.Impulse);
+    //}
+
     public void HitBall()
     {
         initialPosition = transform.position;
         rigidBody.velocity = velocity;
+    }
+
+    public void HitBall(Vector2 velocityIn)
+    {
+        initialPosition = transform.position;
+        rigidBody.velocity = velocityIn;
     }
 
     public bool IsBallCollidingWithGoalArea()

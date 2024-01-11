@@ -14,6 +14,8 @@ public class Ball : MonoBehaviour
     private GameStateContext gameStateContext;
 
     [SerializeField] private TrajectoryRenderer trajectoryRenderer;
+    //[SerializeField] Ball ballPrefab;
+
 
     void Start()
     {
@@ -63,6 +65,7 @@ public class Ball : MonoBehaviour
     {
         Vector2 aimedVelocity = ballPhysics.AimBall(speed);
         trajectoryRenderer.DisplayTrajectory(transform.position, aimedVelocity, gravityScale);
+        //trajectoryRenderer.SimulateTrajectory(transform.position, aimedVelocity);
     }
 
     public void InpReleaseBall()
@@ -71,6 +74,12 @@ public class Ball : MonoBehaviour
         gameStateContext.HandleHitBall();
         ballPhysics.HitBall();
     }
+
+    // SIMULATION ATTEMPT
+    //public void Hit(Vector3 velocityIn)
+    //{
+    //    ballPhysics.ApplyForce(velocityIn);
+    //}
 
     private void OnMouseDrag()
     {
