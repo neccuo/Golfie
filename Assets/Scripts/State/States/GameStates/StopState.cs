@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.State.Contexts;
 using Assets.Scripts.State.Interfaces;
 using System;
+using UnityEngine;
 
 namespace Assets.Scripts.State.States.GameStates
 {
@@ -19,6 +20,11 @@ namespace Assets.Scripts.State.States.GameStates
 
             if (ball.IsBallInGoalArea())
             {
+                // DELIKSIZ ATMIS ISE ANIMASYON GIR
+                if(context.GetBounceCount() == 0)
+                {
+                    Debug.Log("Well done!");
+                }
                 context.ChangeState(new NextGameState(context));
                 context.HandleNextGame();
             }

@@ -10,6 +10,22 @@ public class BallPhysics : MonoBehaviour
     [SerializeField] private Rigidbody2D rigidBody;
     [SerializeField] private Collider2D ballCollider;
 
+    private Ball ball;
+
+    private void Start()
+    {
+        ball = gameObject.GetComponent<Ball>();
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Wall"))
+        {
+            ball.HandleWallHit();
+            //Debug.Log("Wall bounce");
+        }
+    }
+
     public Vector2 GetVelocity()
     {
         return rigidBody.velocity;
@@ -74,6 +90,18 @@ public class BallPhysics : MonoBehaviour
         }
         return false;
     }
+
+    //// BOUNCE REALM
+    //public void SetBounceCounter(int newCount)
+    //{
+    //    bounceCounter = newCount;
+    //    Debug.Log($"Bounce Count SET: {newCount}");
+    //}
+
+    //public int GetBounceCounter()
+    //{
+    //    return bounceCounter;
+    //}
 
     private Vector3 GetDirection()
     {

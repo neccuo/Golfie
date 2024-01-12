@@ -15,34 +15,33 @@ public class TrajectoryRenderer : MonoBehaviour
     //private Scene _simulationScene;
     //private PhysicsScene _physicsScene;
     //private readonly Dictionary<Transform, Transform> _spawnedObjects = new Dictionary<Transform, Transform>();
-
-    [SerializeField] private BallPhysics ballPhysics;
-    [SerializeField] private Ball ball;
-
-    [SerializeField] private Ball ghostBall;
-
-
+    //[SerializeField] private BallPhysics ballPhysics;
+    //[SerializeField] private Ball ball;
+    //[SerializeField] private Ball ghostBall;
+        
     void Start()
     {
         dots = new GameObject[numberOfDots];
         for (int i = 0; i < numberOfDots; i++)
         {
-            dots[i] = Instantiate(dotPrefab, transform.position, Quaternion.identity);
-            dots[i].SetActive(false);
+            GameObject dot = Instantiate(dotPrefab, transform.position, Quaternion.identity);
+            dot.transform.SetParent(transform);
+            dot.SetActive(false);
+            dots[i] = dot;
         }
         // SIMULATION ATTEMPT
         //CreatePhysicsScene();
     }
 
-    private void Update()
-    {
-        // SIMULATION ATTEMPT
-        //foreach (var item in _spawnedObjects)
-        //{
-        //    item.Value.position = item.Key.position;
-        //    item.Value.rotation = item.Key.rotation;
-        //}
-    }
+    //private void Update()
+    //{
+    //    // SIMULATION ATTEMPT
+    //    foreach (var item in _spawnedObjects)
+    //    {
+    //        item.Value.position = item.Key.position;
+    //        item.Value.rotation = item.Key.rotation;
+    //    }
+    //}
 
     // WORRY ABOUT IT LATER
     // SIMULATION ATTEMPT

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - GoalArea
   - GameMediator
+  - Wall
+  - Hole
   layers:
   - Default
   - TransparentFX

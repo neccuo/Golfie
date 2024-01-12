@@ -81,6 +81,14 @@ public class Ball : MonoBehaviour
     //    ballPhysics.ApplyForce(velocityIn);
     //}
 
+    public void HandleWallHit()
+    {
+        if(gameStateContext.GetCurrentState() is ProcessState)
+        {
+            gameStateContext.IncBounceCount();
+        }
+    }
+
     private void OnMouseDrag()
     {
         GameInputSystem.Instance.BallMouseDrag();
@@ -98,7 +106,4 @@ public class Ball : MonoBehaviour
             gameStateContext.HandleProcessBall();
         }
     }
-
-
-
 }
